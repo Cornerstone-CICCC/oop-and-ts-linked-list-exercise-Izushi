@@ -5,6 +5,28 @@ const DLL = require('../lib/DLL');
 
 function deleteAllNodesWithValue(list, value) {
   // your code here
+  let runner = list.head
+
+  while (runner) {
+    if (runner.data === value) {
+      if (runner === list.head) {
+        list.head = runner.next
+        if (list.head) {
+          list.head.prev = null
+        } else {
+          list.tail = null
+        }
+      } else if (runner === list.tail) {
+        list.tail = runner.prev
+        list.tail.next = null
+      } else {
+        runner.prev.next = runner.next
+        runner.next.prev = runner.prev
+      }
+      list.size -= 1
+    }
+    runner = runner.next
+  }
 }
 
 const list = new DLL();
@@ -14,5 +36,6 @@ list.insertAtBack(3);
 list.insertAtBack(2);
 list.insertAtBack(5);
 
+console.log(list.head)
 deleteAllNodesWithValue(list, 2);
 console.log(list.print()); // Output: 1 <-> 3 <-> 5
